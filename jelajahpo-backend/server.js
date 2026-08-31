@@ -46,11 +46,27 @@ app.post('/wisata', (req, res) => {
 
     const sql = 'INSERT INTO wisata (nama_wisata, deskripsi, harga_tiket, id_kategori, tgl_input) VALUES (?,?, ?, ?, NOW())';
     db.query(sql, [nama_wisata, deskripsi, harga_tiket, id_kategori], (err,result)=> {
-        if (err) return res.status(500).json({ error:err.sqlMessage })
+        if (err) return res.status(500).json({ error:err.sqlMessage })()
             res.json({
              message: 'Wisata berhasil ditambahkan!',
              id_wisata: result.insertId
         })
+    })
+})
+
+//==========PUT WISATA========//
+app.put('/wisata/:id_wisata', (req, res) => {
+    const { id_wisata } = req.params;
+    const { nama_wisata, deskripsi, harga_tiket, id_kategori } = req.body;
+
+    if (!nama_wisata || !harga_tiket) {
+        return res.status(400).json({ message: 'Nama Wisata dan harga_tiket wajid diisi' })
+    }
+
+    const sql = 'UPDATE wisata SET nama_wisata=?, deskripsi=?, harga_tiket=?, id_kategori=? WHERE id_wisata=?';
+    db.query(sql, [nama_wisata, deskripsi, harga_tiket, id_kategori, id_wisata], (err, result ) => {
+        if (err) return res.status(500).json({ error: err.sqlMessage })
+            res.json({ message: 'Wisata berhasil diupdate!'})
     })
 })
 //==========GET KATEGORI=======//
