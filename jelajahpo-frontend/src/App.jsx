@@ -3,6 +3,7 @@ import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Wisata from "./pages/Wisata";
+import AddWisata from "./pages/AddWisata";
 import Kategori from "./pages/Kategori";
 
 export default function App() {
@@ -13,6 +14,7 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="wisata" element={<Wisata />} />
+          <Route path="wisata/tambah" element={<AddWisata />}/>
           <Route path="kategori" element={<Kategori />} />
         </Route>
       </Routes>

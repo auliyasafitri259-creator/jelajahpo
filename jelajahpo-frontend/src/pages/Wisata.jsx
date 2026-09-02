@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom"
 
 export default function Wisata() {
     const [wisata, setWisata] = useState([]);
@@ -20,6 +21,28 @@ export default function Wisata() {
         getWisata();
     }, []);
 
+    const handleDelete = async (id) => {
+        if (window.confirm("Yakin ingin menghapus wisata ini? ")) {
+            try {
+                const res = await fetch(`http://localhost:3001/wisata/${id}`, {
+                    method: "DELETE",
+                })
+                if (res.ok) {
+                    alert("Wisata berhasil dihapus")
+                    getWisata(); //ambil ulang data terbaru
+                } else {
+                    alert("Gagal menghapus wisata")
+                }
+            } catch (err) {
+                console.error("Error saat delete:", err)
+                alert("Terjadi kesalahan saat menghapus data")
+            }
+        }
+    }
+    const handleEdit = (id) => {
+        Navigate(`/wisata/edit/${id}`)
+    }
+
     if (loading) {
         return (
             <div className="container mt-4">
@@ -31,9 +54,11 @@ export default function Wisata() {
     return (
         <div className="container mt-4">
             <div className="d-flex justify-content-between align-items-center mb-3">
-                <h2>Daftar Wisata JelajahPo</h2>
+                <h2>Daftar Wisata JelajahPo </h2>
+                <Link to="/wisata/tambah" className="btn btn-primary">
+                + Tambah Wisata
+                </Link>
             </div>
-
             <table className="table table-bordered table-striped">
                 <thead className="table-primary">
                     <tr>
